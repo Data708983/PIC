@@ -6,8 +6,6 @@ from tkinter.tix import *
 import math
 import time
 
-#add a message
-
 outerPoints = list()
 innerPoints = list()
 imgPath1 = str()
@@ -18,6 +16,7 @@ selmode = {'outer': False, 'inner': False}
 mouse_pos = (0, 0)
 rulerPos = list()
 rulerRatio = 0
+
 
 def CloseRoot(windows):
     global rootAwake
