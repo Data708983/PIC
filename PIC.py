@@ -6,6 +6,8 @@ from tkinter.tix import *
 import math
 import time
 
+#add a message
+
 outerPoints = list()
 innerPoints = list()
 imgPath1 = str()
