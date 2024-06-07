@@ -3,6 +3,7 @@ from PIL import Image as imi, ImageTk
 from tkinter import filedialog
 from tkinter import messagebox
 from tkinter.tix import *
+import tkinterweb as tw
 import math
 import time
 
@@ -195,10 +196,14 @@ class rootWindows():
         root.updateSelmod()
         root.updaterulermode()
     def help(self):
-        help = Toplevel()
-        help.geometry("300x200")
-        help.title('Help')
-        root.updaterulermode()
+        helps = Toplevel()
+        helps.iconbitmap("resource/icon.ico")
+        with open("resource/Help.html", "r", encoding="utf-8") as file:
+            html_content = file.read()
+        frame = tw.HtmlFrame(helps)
+        frame.pack()
+        frame.load_html(html_content)
+        helps.mainloop()
     def selmode_o(self):
         selmode['outer'] = False
         selmode['inner'] = True
