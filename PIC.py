@@ -95,7 +95,7 @@ class rootWindows():
         detail.geometry("400x240")
         detail.iconbitmap("resource/icon.ico")
         detail.resizable(0, 0)
-        location = Label(detail, text="PIC Alpha 0.4.1")
+        location = Label(detail, text="PIC Alpha 0.4.2")
         location.grid(column=0, row=0)
 
         numIdx = 14  # gif的帧数
@@ -277,7 +277,7 @@ class rootWindows():
     file1 = Button(upper, text="Help", command=lambda: rootWindows.help(root), cursor='question_arrow')
     file1.grid(column=3, row=0, padx=1)
 
-    file1 = Button(upper, text="Save", command=lambda: rootWindows.saveScreen(root), cursor='hand2')
+    file1 = Button(upper, text="Save(Ctrl+s)", command=lambda: rootWindows.saveScreen(root), cursor='hand2')
     file1.grid(column=4, row=0, padx=1)
 
     lowerDiv2 = Frame(bg="white", height=1, width=500)
@@ -690,6 +690,7 @@ if __name__ == '__main__':
     # getMouseMotion()
     root.root.bind("<Motion>", motion)
     root.root.bind("<Button-1>", click)
+    root.root.bind("<Control-s>", lambda event: rootWindows.saveScreen(root))
     # drawPoints()
     # caculations()
 
