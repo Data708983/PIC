@@ -118,7 +118,7 @@ class rootWindows():
         detail.geometry("450x250")
         detail.iconbitmap("resource/icon.ico")
         detail.resizable(0, 0)
-        location = Label(detail, text="PIC Alpha 0.4.2")
+        location = Label(detail, text="PIC Alpha 0.4.7")
         location.grid(column=0, row=0)
 
         numIdx = 14  # gif的帧数
