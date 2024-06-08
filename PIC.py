@@ -1,11 +1,13 @@
 from tkinter import *
 from PIL import Image as imi, ImageTk
+from tkinter import tix
 from tkinter import filedialog
 from tkinter import messagebox
 from tkinter.tix import *
-import tkinterweb as tw
+from PIL import ImageGrab
 import math
 import time
+import os
 
 outerPoints = list()
 innerPoints = list()
@@ -114,6 +116,21 @@ class rootWindows():
 
         detail.mainloop()
 
+    def saveScreen(self):
+        # 获取主窗口的位置和大小
+        x = root.root.winfo_rootx()
+        y = root.root.winfo_rooty()-35
+        w = root.root.winfo_width()
+        h = root.root.winfo_height()+35
+
+        # 使用ImageGrab模块的grab()函数来进行截图
+        screenshot = ImageGrab.grab(bbox=(x, y, x + w, y + h))
+        # 保存截图为文件
+        filename = imgPath1.split('/')[-1]+'_'+str(time.time())+'.png'
+        screenshot.save(filename)
+        messagebox.showinfo('已保存为','screenshot has been saved as:\n'+filename)
+        os.startfile(filename)
+
     def fileSelect(self):
         global imgPath1
         global rootAwake
@@ -198,12 +215,12 @@ class rootWindows():
     def help(self):
         helps = Toplevel()
         helps.iconbitmap("resource/icon.ico")
-        with open("resource/Help.html", "r", encoding="utf-8") as file:
-            html_content = file.read()
-        frame = tw.HtmlFrame(helps)
-        frame.pack()
-        frame.load_html(html_content)
-        helps.mainloop()
+        # with open("resource/Help.html", "r", encoding="utf-8") as file:
+        #     html_content = file.read()
+        # frame = tw.HtmlFrame(helps)
+        # frame.pack()
+        # frame.load_html(html_content)
+        # helps.mainloop()
     def selmode_o(self):
         selmode['outer'] = False
         selmode['inner'] = True
@@ -260,7 +277,7 @@ class rootWindows():
     file1 = Button(upper, text="Help", command=lambda: rootWindows.help(root), cursor='question_arrow')
     file1.grid(column=3, row=0, padx=1)
 
-    file1 = Button(upper, text="ExtralButton", command=lambda: rootWindows.details(root), cursor='hand2')
+    file1 = Button(upper, text="Save", command=lambda: rootWindows.saveScreen(root), cursor='hand2')
     file1.grid(column=4, row=0, padx=1)
 
     lowerDiv2 = Frame(bg="white", height=1, width=500)
