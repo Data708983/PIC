@@ -1,5 +1,5 @@
 from tkinter import *
-from PIL import Image as imi, ImageTk
+from PIL import Image as imi, ImageTk, ImageOps
 from tkinter import tix
 from tkinter import filedialog
 from tkinter import messagebox
@@ -20,6 +20,29 @@ mouse_pos = (0, 0)
 rulerPos = list()
 rulerRatio = 0
 
+def ImgProc(img):
+    width, height = img.size
+
+    # 计算当前长宽比和目标长宽比（3:5）
+    current_aspect_ratio = height / width
+    target_aspect_ratio = 3 / 5
+
+    if current_aspect_ratio != target_aspect_ratio:
+        # 如果当前长宽比不等于目标长宽比，计算需要添加的白边大小
+        if current_aspect_ratio < target_aspect_ratio:
+            # 在上下两侧添加白边
+            new_height = int(width * target_aspect_ratio)
+            border_height = (new_height - height) // 2
+            bordered_img = ImageOps.expand(img, border=(0, border_height, 0, border_height), fill='white')
+        else:
+            # 在左右两侧添加白边
+            new_width = int(height / target_aspect_ratio)
+            border_width = (new_width - width) // 2
+            bordered_img = ImageOps.expand(img, border=(border_width, 0, border_width, 0), fill='white')
+    else:
+        # 如果当前长宽比已经等于目标长宽比，则无需调整
+        bordered_img = img
+    return bordered_img
 
 def CloseRoot(windows):
     global rootAwake
@@ -154,6 +177,7 @@ class rootWindows():
         if imgPath1 != '':
             print('OPENED:', imgPath1)
             img = imi.open(imgPath1)  # 打开图片
+            img = ImgProc(img)
             img = img.resize((500, int(img.height / img.width * 500)))
             photo = ImageTk.PhotoImage(img)  # 用PIL模块的PhotoImage打开
             root.canves.create_image(0, 0, anchor='nw', image=photo)
@@ -249,8 +273,8 @@ class rootWindows():
                 rulerRatio = 0
             else:
                 rulerRatio = eval(root.tool_rulerConfirm_num.get())/(((rulerPos[0][0]-rulerPos[1][0])**2+(rulerPos[0][1]-rulerPos[1][1])**2)**0.5)
-            root.position.config(text="X: {} | Y: {}\tRuler: 1:{:.2f}mm".format(mouse_pos[0], mouse_pos[1], rulerRatio))
-            root.sets_down1_ratio_num.config(text="1:{:.2f}mm".format(rulerRatio))
+            root.position.config(text="X: {} | Y: {}\tRuler: 1:{:.2f}μm".format(mouse_pos[0], mouse_pos[1], rulerRatio))
+            root.sets_down1_ratio_num.config(text="1:{:.2f}μm".format(rulerRatio))
             # print(((rulerPos[0][0]-rulerPos[1][0])**2+(rulerPos[0][1]-rulerPos[1][1])**2)**0.5)
             # print(rulerRatio)
     def __init__(self):
@@ -352,7 +376,7 @@ class rootWindows():
     tool_rulerConfirm_num1 = Label(tools, text='▶')
     tool_rulerConfirm_num1.grid(column=5, row=1, padx=0)
 
-    tool_rulerConfirm_num2 = Label(tools, text='mm')
+    tool_rulerConfirm_num2 = Label(tools, text='μm')
     tool_rulerConfirm_num2.grid(column=7, row=1, padx=0)
 
     middleDiv = Frame(root, height=400, width=1, bg='grey')
@@ -448,7 +472,7 @@ def is_mouse_inside_canvas(event):
 def motion(event): # 鼠标移动
     mouse_pos = (event.x, event.y)
     if is_mouse_inside_canvas(event):
-        root.position.config(text="X: {} | Y: {}\tRuler: 1:{:.2f}mm".format(mouse_pos[0], mouse_pos[1],rulerRatio))
+        root.position.config(text="X: {} | Y: {}\tRuler: 1:{:.2f}μm".format(mouse_pos[0], mouse_pos[1],rulerRatio))
         if mode['Delete'] and imgPath1 != '':
             if approachPoints(mouse_pos, 3):
                 for pos in outerPoints:
