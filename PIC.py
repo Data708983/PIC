@@ -93,7 +93,7 @@ class rootWindows():
         detail.geometry("400x240")
         detail.iconbitmap("resource/icon.ico")
         detail.resizable(0, 0)
-        location = Label(detail, text="PIC Alpha 0.3.5")
+        location = Label(detail, text="PIC Alpha 0.3.7")
         location.grid(column=0, row=0)
 
         numIdx = 14  # gif的帧数
@@ -222,6 +222,7 @@ class rootWindows():
             else:
                 rulerRatio = eval(root.tool_rulerConfirm_num.get())/(((rulerPos[0][0]-rulerPos[1][0])**2+(rulerPos[0][1]-rulerPos[1][1])**2)**0.5)
             root.position.config(text="X: {} | Y: {}\tRuler: 1:{:.2f}mm".format(mouse_pos[0], mouse_pos[1], rulerRatio))
+            root.sets_down1_ratio_num.config(text="1:{:.2f}mm".format(rulerRatio))
             # print(((rulerPos[0][0]-rulerPos[1][0])**2+(rulerPos[0][1]-rulerPos[1][1])**2)**0.5)
             # print(rulerRatio)
     def __init__(self):
