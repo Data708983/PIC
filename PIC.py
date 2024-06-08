@@ -95,7 +95,7 @@ class rootWindows():
         detail.geometry("400x240")
         detail.iconbitmap("resource/icon.ico")
         detail.resizable(0, 0)
-        location = Label(detail, text="PIC Alpha 0.3.7")
+        location = Label(detail, text="PIC Alpha 0.4.1")
         location.grid(column=0, row=0)
 
         numIdx = 14  # gif的帧数
@@ -438,7 +438,7 @@ def motion(event): # 鼠标移动
     mouse_pos = (event.x, event.y)
     if is_mouse_inside_canvas(event):
         root.position.config(text="X: {} | Y: {}\tRuler: 1:{:.2f}mm".format(mouse_pos[0], mouse_pos[1],rulerRatio))
-        if mode['Delete']:
+        if mode['Delete'] and imgPath1 != '':
             if approachPoints(mouse_pos, 3):
                 for pos in outerPoints:
                     if approachPoint(mouse_pos, pos, 3):
@@ -452,6 +452,142 @@ def motion(event): # 鼠标移动
                 root.canves.delete("appoachO")
                 root.canves.delete("appoachI")
 
+        root.canves.delete('templine')
+        if mode['Select'] and imgPath1 != '':
+            root.canves.delete('lastline')
+            if not selmode['outer']:
+
+                if len(innerPoints) != 0:
+                    inLastPos = ()
+                    for i in reversed(innerPoints):
+                        if i == (-1, -1):
+                            continue
+                        else:
+                            inLastPos = i
+                            break
+                    inFirstPos = ()
+                    for i in innerPoints:
+                        if i == (-1, -1):
+                            continue
+                        else:
+                            inFirstPos = i
+                            break
+                    root.canves.create_line(inFirstPos[0], inFirstPos[1], inLastPos[0], inLastPos[1], fill='blue',
+                                            width=2, tag='lastline')
+
+                outLastPos = ()
+                for i in reversed(outerPoints):
+                    if i == (-1,-1): continue
+                    else:
+                        outLastPos = i
+                        break
+                if outLastPos != ():
+                    root.canves.create_line(mouse_pos[0],mouse_pos[1],outLastPos[0],outLastPos[1], fill='pink', width=2, tag='templine')
+                    if len(outerPoints) >= 5:
+                        outFirstPos = ()
+                        for i in outerPoints:
+                            if i == (-1, -1):
+                                continue
+                            else:
+                                outFirstPos= i
+                                break
+                        root.canves.create_line(mouse_pos[0], mouse_pos[1], outFirstPos[0], outFirstPos[1], fill='pink',
+                                                width=2, tag='templine')
+            if not selmode['inner']:
+
+                if len(outerPoints) != 0:
+                    outLastPos = ()
+                    for i in reversed(outerPoints):
+                        if i == (-1, -1):
+                            continue
+                        else:
+                            outLastPos = i
+                            break
+                    outFirstPos = ()
+                    for i in outerPoints:
+                        if i == (-1, -1):
+                            continue
+                        else:
+                            outFirstPos = i
+                            break
+                    root.canves.create_line(outFirstPos[0], outFirstPos[1], outLastPos[0], outLastPos[1], fill='red',
+                                            width=2, tag='lastline')
+
+                inLastPos = ()
+                for i in reversed(innerPoints):
+                    if i == (-1,-1): continue
+                    else:
+                        inLastPos = i
+                        break
+                if inLastPos != ():
+                    root.canves.create_line(mouse_pos[0],mouse_pos[1],inLastPos[0],inLastPos[1], fill='lightblue', width=2, tag='templine')
+                    if len(innerPoints) >= 5:
+                        inFirstPos = ()
+                        for i in innerPoints:
+                            if i == (-1, -1):
+                                continue
+                            else:
+                                inFirstPos= i
+                                break
+                        root.canves.create_line(mouse_pos[0], mouse_pos[1], inFirstPos[0], inFirstPos[1], fill='lightblue',
+                                                width=2, tag='templine')
+            if not mode['Select']:
+                if len(outerPoints) != 0:
+                    outLastPos = ()
+                    for i in reversed(outerPoints):
+                        if i == (-1, -1):
+                            continue
+                        else:
+                            outLastPos = i
+                            break
+                    outFirstPos = ()
+                    for i in outerPoints:
+                        if i == (-1, -1):
+                            continue
+                        else:
+                            outFirstPos = i
+                            break
+                    root.canves.create_line(outFirstPos[0], outFirstPos[1], outLastPos[0], outLastPos[1], fill='red',
+                                            width=2, tag='lastline')
+    else:
+        # 不在画布内
+        root.canves.delete('templine')
+
+        if len(outerPoints) != 0:
+            outLastPos = ()
+            for i in reversed(outerPoints):
+                if i == (-1, -1):
+                    continue
+                else:
+                    outLastPos = i
+                    break
+            outFirstPos = ()
+            for i in outerPoints:
+                if i == (-1, -1):
+                    continue
+                else:
+                    outFirstPos = i
+                    break
+            root.canves.create_line(outFirstPos[0], outFirstPos[1], outLastPos[0], outLastPos[1], fill='red',
+                                    width=2, tag='lastline')
+
+        if len(innerPoints) != 0:
+            inLastPos = ()
+            for i in reversed(innerPoints):
+                if i == (-1, -1):
+                    continue
+                else:
+                    inLastPos = i
+                    break
+            inFirstPos = ()
+            for i in innerPoints:
+                if i == (-1, -1):
+                    continue
+                else:
+                    inFirstPos = i
+                    break
+            root.canves.create_line(inFirstPos[0], inFirstPos[1], inLastPos[0], inLastPos[1], fill='blue',
+                                    width=2, tag='lastline')
 def click(event):  # 鼠标点击
     # print("O:",outerPoints,'\n','I:',innerPoints)
     drawOuterPoints((event.x,event.y), event)
