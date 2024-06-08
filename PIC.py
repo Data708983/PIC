@@ -92,27 +92,38 @@ class rootWindows():
 
     def details(self):
         detail = Toplevel()
-        detail.geometry("400x240")
+        detail.geometry("450x250")
         detail.iconbitmap("resource/icon.ico")
         detail.resizable(0, 0)
         location = Label(detail, text="PIC Alpha 0.4.2")
         location.grid(column=0, row=0)
 
         numIdx = 14  # gif的帧数
+        numIdx1 = 23  # gif的帧数
         # 填充14帧内容到frames
         frames = [PhotoImage(file='resource/YFTCM.gif', format='gif -index %i' % i).subsample(4) for i in range(numIdx)]
+        frames1 = [PhotoImage(file='resource/CYWL.gif', format='gif -index %i' % i).subsample(4) for i in range(numIdx1)]
 
         def update(idx):  # 定时器函数
             frame = frames[idx]
             idx += 1  # 下一帧的序号：在0,1,2,3,4,5之间循环(共6帧)
-            label.configure(image=frame)  # 显示当前帧的图片
+            YCTFM.configure(image=frame)  # 显示当前帧的图片
             detail.after(100, update, idx % numIdx)  # 0.1秒(100毫秒)之后继续执行定时器函数(update)
 
-        label = Label(detail)
-        label.grid(column=0, row=1)
+        def update1(idx1):  # 定时器函数
+            frame1 = frames1[idx1]
+            idx1 += 1  # 下一帧的序号：在0,1,2,3,4,5之间循环(共6帧)
+            CYWL.configure(image=frame1)  # 显示当前帧的图片
+            detail.after(100, update1, idx1 % numIdx1)  # 0.1秒(100毫秒)之后继续执行定时器函数(update)
+
+        YCTFM = Label(detail)
+        CYWL = Label(detail)
+        YCTFM.grid(column=0, row=1)
+        CYWL.grid(column=3, row=1)
         detail.after(0, update, 0)  # 立即启动定时器函数(update)
+        detail.after(0, update1, 0)  # 立即启动定时器函数(update)
         names = Label(detail, text="Design: Data7\nCaculatonMethod: HY\nProgram: Data7\n DO NOT SPREAD!")
-        names.grid(column=1, row=0, rowspan=2, sticky=S)
+        names.grid(column=1, row=0, rowspan=2)
 
         detail.mainloop()
 
