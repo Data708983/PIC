@@ -420,22 +420,22 @@ class rootWindows():
     sets_down1.grid(column=0, row=5, pady=5, columnspan=2)
     sets_down1.grid_propagate(False)
 
-    sets_down1_figureLabel = Label(sets_down1,text='Result:',font=('Times',15,'bold'))
+    sets_down1_figureLabel = Label(sets_down1,text='Result:',font=('arial',15,'bold'))
     sets_down1_figureLabel.grid(column=0,row=0,pady=1,columnspan=2,sticky=W)
 
-    sets_down1_figurel = Label(sets_down1,text='AVE:',font=('Times',10,'bold'))
+    sets_down1_figurel = Label(sets_down1,text='AVE:',font=('arial',10,'bold'))
     sets_down1_figurel.grid(column=0,row=1,pady=1,sticky=E)
 
     sets_down1_figurel_num = Label(sets_down1,text='0 mm')
     sets_down1_figurel_num.grid(column=1,row=1,pady=1,sticky=W)
 
-    sets_down1_figure2 = Label(sets_down1,text='Selected:',font=('Times',10,'bold'))
+    sets_down1_figure2 = Label(sets_down1,text='Selected:',font=('arial',10,'bold'))
     sets_down1_figure2.grid(column=0,row=2,pady=1,sticky=E)
 
     sets_down1_figure2_num = Label(sets_down1,text='0 mm')
     sets_down1_figure2_num.grid(column=1,row=2,pady=1,sticky=W)
 
-    sets_down1_ratio = Label(sets_down1,text='Ratio:',font=('Times',10,'bold'))
+    sets_down1_ratio = Label(sets_down1,text='Ratio:',font=('arial',10,'bold'))
     sets_down1_ratio.grid(column=0,row=3,pady=1,sticky=E)
 
     sets_down1_ratio_num = Label(sets_down1,text='noRuler')
