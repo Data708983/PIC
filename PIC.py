@@ -8,7 +8,9 @@ from PIL import ImageGrab
 import math
 import time
 import os
+import pathlib
 
+folder = pathlib.Path(__file__).parent.resolve()
 outerPoints = list()
 innerPoints = list()
 imgPath1 = str()
@@ -116,16 +118,16 @@ class rootWindows():
     def details(self):
         detail = Toplevel()
         detail.geometry("450x250")
-        detail.iconbitmap("resource/icon.ico")
+        detail.iconbitmap(f"{folder}/resource/icon.ico")
         detail.resizable(0, 0)
-        location = Label(detail, text="PIC Alpha 0.4.7")
+        location = Label(detail, text="PIC Alpha 0.5.0")
         location.grid(column=0, row=0)
 
         numIdx = 14  # gif的帧数
         numIdx1 = 23  # gif的帧数
         # 填充14帧内容到frames
-        frames = [PhotoImage(file='resource/YFTCM.gif', format='gif -index %i' % i).subsample(4) for i in range(numIdx)]
-        frames1 = [PhotoImage(file='resource/CYWL.gif', format='gif -index %i' % i).subsample(4) for i in range(numIdx1)]
+        frames = [PhotoImage(file=f'{folder}/resource/YFTCM.gif', format='gif -index %i' % i).subsample(4) for i in range(numIdx)]
+        frames1 = [PhotoImage(file=f'{folder}/resource/CYWL.gif', format='gif -index %i' % i).subsample(4) for i in range(numIdx1)]
 
         def update(idx):  # 定时器函数
             frame = frames[idx]
@@ -249,8 +251,8 @@ class rootWindows():
         root.updaterulermode()
     def help(self):
         helps = Toplevel()
-        helps.iconbitmap("resource/icon.ico")
-        # with open("resource/Help.html", "r", encoding="utf-8") as file:
+        helps.iconbitmap(f"{folder}/resource/icon.ico")
+        # with open(f"{folder}/resource/Help.html", "r", encoding="utf-8") as file:
         #     html_content = file.read()
         # frame = tw.HtmlFrame(helps)
         # frame.pack()
@@ -281,7 +283,7 @@ class rootWindows():
         root =self.root
         root.geometry("700x450")
         root.title('PIC')
-        root.iconbitmap('resource/PIC.ico')
+        root.iconbitmap(f'{folder}/resource/PIC.ico')
         root.resizable(0, 0)
 
     # 样式
@@ -335,7 +337,7 @@ class rootWindows():
     tool_title = Label(tools, text='Tools:')
     tool_title.grid(column=0, row=0, pady=3)
 
-    photo = PhotoImage(file="resource/M.png")
+    photo = PhotoImage(file=f"{folder}/resource/M.png")
     photo = photo.zoom(2, 2)
     # 图片在button的左边
     tool_mouse = Button(tools, text='', image=photo,
@@ -343,7 +345,7 @@ class rootWindows():
     tip.bind_widget(tool_mouse, balloonmsg="MouseMod")
     tool_mouse.grid(column=0, row=1, padx=1)
 
-    photoS = PhotoImage(file="resource/S.png")
+    photoS = PhotoImage(file=f"{folder}/resource/S.png")
     photoS = photoS.zoom(2, 2)
     # 图片在button的左边
     tool_select = Button(tools, text='', image=photoS,
@@ -351,7 +353,7 @@ class rootWindows():
     tool_select.grid(column=1, row=1, padx=1)
     tip.bind_widget(tool_select, balloonmsg="SelectMod")
 
-    photoD = PhotoImage(file="resource/D.png")
+    photoD = PhotoImage(file=f"{folder}/resource/D.png")
     photoD = photoD.zoom(2, 2)
     # 图片在button的左边
     tool_delet = Button(tools, text='', image=photoD,
@@ -359,7 +361,7 @@ class rootWindows():
     tip.bind_widget(tool_delet, balloonmsg="DeleteMod")
     tool_delet.grid(column=2, row=1, padx=1)
 
-    photoR = PhotoImage(file="resource/R.png")
+    photoR = PhotoImage(file=f"{folder}/resource/R.png")
     photoR = photoR.zoom(2, 2)
     # 图片在button的左边
     tool_ruler = Button(tools, text='', image=photoR,
@@ -717,7 +719,7 @@ def approachPoint(nowPoint,Point,r):
 if __name__ == '__main__':
     # rootWindowsInit() -> root
     root = rootWindows()
-    imgb = imi.open('resource/BP.png')  # 打开图片
+    imgb = imi.open(f'{folder}/resource/BP.png')  # 打开图片
     imgb = imgb.resize((500, int(imgb.height / imgb.width * 500)))
     photo = ImageTk.PhotoImage(imgb)  # 用PIL模块的PhotoImage打开
     root.canves.create_image(0, 0, anchor='nw', image=photo)
