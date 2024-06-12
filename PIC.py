@@ -120,7 +120,7 @@ class rootWindows():
         detail.geometry("450x250")
         detail.iconbitmap(f"{folder}/resource/icon.ico")
         detail.resizable(0, 0)
-        location = Label(detail, text="PIC Alpha 0.5.0")
+        location = Label(detail, text="PIC Alpha 0.5.5")
         location.grid(column=0, row=0)
 
         numIdx = 14  # gif的帧数
@@ -188,16 +188,16 @@ class rootWindows():
     def echo(self):
         global imgPath1
         if imgPath1 != '':
-            messagebox.showinfo("ChosenImg:", imgPath1)
+            messagebox.showinfo("当前图片:", imgPath1)
         else:
-            messagebox.showerror("no img Chosen", "no img Chosen")
+            messagebox.showerror("没有选择图片", "快去点'文件'选一张！")
 
     def mouse(self):
         root.tool_mouse.config(state=DISABLED)
         root.tool_select.config(state=ACTIVE)
         root.tool_delet.config(state=ACTIVE)
         root.tool_ruler.config(state=ACTIVE)
-        root.mode.config(text='MODE: Mouse')
+        root.mode.config(text='模式：鼠标')
         root.canves.config(cursor='arrow')
         for i in mode:
             mode[i] = False
@@ -211,7 +211,7 @@ class rootWindows():
         root.tool_select.config(state=DISABLED)
         root.tool_delet.config(state=ACTIVE)
         root.tool_ruler.config(state=ACTIVE)
-        root.mode.config(text='MODE: DrawPoints')
+        root.mode.config(text='模式：画笔')
         root.canves.config(cursor='crosshair')
         for i in mode:
             mode[i] = False
@@ -226,7 +226,7 @@ class rootWindows():
         root.tool_select.config(state=ACTIVE)
         root.tool_delet.config(state=DISABLED)
         root.tool_ruler.config(state=ACTIVE)
-        root.mode.config(text='MODE: DeletePoints')
+        root.mode.config(text='模式：删除')
         root.canves.config(cursor='arrow')
         for i in mode:
             mode[i] = False
@@ -240,7 +240,7 @@ class rootWindows():
         root.tool_select.config(state=ACTIVE)
         root.tool_delet.config(state=ACTIVE)
         root.tool_ruler.config(state=DISABLED)
-        root.mode.config(text='MODE: DefineRuler')
+        root.mode.config(text='模式：比例尺')
         root.canves.config(cursor='circle')
         for i in mode:
             mode[i] = False
@@ -250,14 +250,10 @@ class rootWindows():
         root.updateSelmod()
         root.updaterulermode()
     def help(self):
-        helps = Toplevel()
-        helps.iconbitmap(f"{folder}/resource/icon.ico")
-        # with open(f"{folder}/resource/Help.html", "r", encoding="utf-8") as file:
-        #     html_content = file.read()
-        # frame = tw.HtmlFrame(helps)
-        # frame.pack()
-        # frame.load_html(html_content)
-        # helps.mainloop()
+        # helps = Toplevel()
+        # helps.iconbitmap(f"{folder}/resource/icon.ico")
+        # Label(helps,text='使用帮助！').pack()
+        os.startfile(f'{folder}/resource/Help.html')
     def selmode_o(self):
         selmode['outer'] = False
         selmode['inner'] = True
@@ -298,23 +294,23 @@ class rootWindows():
     upperDiv1 = Frame(bg="white", height=1, width=500)
     upperDiv1.grid(column=0, row=3, columnspan=2)
 
-    detail = Button(upper, text="About", command=lambda: rootWindows.details(root), cursor='hand2')
+    detail = Button(upper, text="关于PIC", command=lambda: rootWindows.details(root), cursor='hand2')
     detail.grid(column=0, row=0, padx=1)
 
     canves = Canvas(root, width=500, height=300, bg="#E5E5E5", cursor="", highlightbackground="grey",
                     highlightthickness=1)
     canves.grid(column=0, row=4, columnspan=2)
 
-    file = Button(upper, text="Files", command=lambda: rootWindows.fileSelect(root), cursor='hand2')
+    file = Button(upper, text="文件", command=lambda: rootWindows.fileSelect(root), cursor='hand2')
     file.grid(column=1, row=0, padx=1)
 
-    file1 = Button(upper, text="ChosenImg", command=lambda: rootWindows.echo(root), cursor='hand2')
+    file1 = Button(upper, text="图片信息", command=lambda: rootWindows.echo(root), cursor='hand2')
     file1.grid(column=2, row=0, padx=1)
 
-    file1 = Button(upper, text="Help", command=lambda: rootWindows.help(root), cursor='question_arrow')
+    file1 = Button(upper, text="帮助", command=lambda: rootWindows.help(root), cursor='question_arrow')
     file1.grid(column=3, row=0, padx=1)
 
-    file1 = Button(upper, text="Save(Ctrl+s)", command=lambda: rootWindows.saveScreen(root), cursor='hand2')
+    file1 = Button(upper, text="截图(Ctrl+s)", command=lambda: rootWindows.saveScreen(root), cursor='hand2')
     file1.grid(column=4, row=0, padx=1)
 
     lowerDiv2 = Frame(bg="white", height=1, width=500)
@@ -324,17 +320,17 @@ class rootWindows():
     lowerDiv1 = Frame(bg="white", height=1, width=500)
     lowerDiv1.grid(column=0, row=7, columnspan=2)
 
-    position = Label(root, text="X: NULL | Y: NULL\tRuler:no ruler defined")
+    position = Label(root, text="X: NULL | Y: NULL\t比例尺：未定义比例尺")
     position.grid(column=0, row=8, sticky=W)
 
-    mode = Label(root, text="MODE: Mouse")
+    mode = Label(root, text="模式：鼠标")
     mode.grid(column=1, row=8, sticky=E)
 
     tools = Frame(root, height=75, width=500, highlightbackground="grey", highlightthickness=1)
     tools.grid_propagate(False)
     tools.grid(column=0, row=9, columnspan=2, sticky=W)
 
-    tool_title = Label(tools, text='Tools:')
+    tool_title = Label(tools, text='工具栏：')
     tool_title.grid(column=0, row=0, pady=3)
 
     photo = PhotoImage(file=f"{folder}/resource/M.png")
@@ -342,7 +338,7 @@ class rootWindows():
     # 图片在button的左边
     tool_mouse = Button(tools, text='', image=photo,
                         compound=CENTER, state=DISABLED, command=lambda: rootWindows.mouse(root))
-    tip.bind_widget(tool_mouse, balloonmsg="MouseMod")
+    tip.bind_widget(tool_mouse, balloonmsg="鼠标模式：\n用鼠标直接测量长度")
     tool_mouse.grid(column=0, row=1, padx=1)
 
     photoS = PhotoImage(file=f"{folder}/resource/S.png")
@@ -351,14 +347,14 @@ class rootWindows():
     tool_select = Button(tools, text='', image=photoS,
                          compound=CENTER, state=ACTIVE, command=lambda: rootWindows.select(root))
     tool_select.grid(column=1, row=1, padx=1)
-    tip.bind_widget(tool_select, balloonmsg="SelectMod")
+    tip.bind_widget(tool_select, balloonmsg="画笔模式：\n用画笔选取边缘点")
 
     photoD = PhotoImage(file=f"{folder}/resource/D.png")
     photoD = photoD.zoom(2, 2)
     # 图片在button的左边
     tool_delet = Button(tools, text='', image=photoD,
                         compound=CENTER, state=ACTIVE, command=lambda: rootWindows.delete(root))
-    tip.bind_widget(tool_delet, balloonmsg="DeleteMod")
+    tip.bind_widget(tool_delet, balloonmsg="删除模式：\n删除画笔模式的点")
     tool_delet.grid(column=2, row=1, padx=1)
 
     photoR = PhotoImage(file=f"{folder}/resource/R.png")
@@ -366,10 +362,10 @@ class rootWindows():
     # 图片在button的左边
     tool_ruler = Button(tools, text='', image=photoR,
                         compound=CENTER, state=ACTIVE, command=lambda: rootWindows.ruler(root))
-    tip.bind_widget(tool_ruler, balloonmsg="RulerMod\ndefine a ruler")
+    tip.bind_widget(tool_ruler, balloonmsg="比例尺模式\n定义比例尺")
     tool_ruler.grid(column=3, row=1, padx=1)
 
-    tool_rulerConfirm = Button(tools, text='Ruler confirm', state=DISABLED,command=lambda: rootWindows.rulerConfirm(root))
+    tool_rulerConfirm = Button(tools, text='确认比例尺', state=DISABLED,command=lambda: rootWindows.rulerConfirm(root))
     tool_rulerConfirm.grid(column=4, row=1, padx=10)
 
     tool_rulerConfirm_num = Entry(tools, width=10, state='readonly')
@@ -391,16 +387,16 @@ class rootWindows():
     pointsCount.grid(column=0, row=1, columnspan=3, sticky=W)
     pointsCount.grid_propagate(False)
 
-    pointsCount_uppertitle = Label(sets, text='SETS:')
+    pointsCount_uppertitle = Label(sets, text='集:')
     pointsCount_uppertitle.grid(column=0, row=0, columnspan=2, pady=10, sticky=W)
 
-    pointsCount_outer = Label(pointsCount, text='outerCount:')
+    pointsCount_outer = Label(pointsCount, text='外部点数:')
     pointsCount_outer.grid(column=0, row=0, pady=0, sticky=W)
 
     pointsCount_outer_Num = Label(pointsCount, text='0')
     pointsCount_outer_Num.grid(column=1, row=0, pady=0, sticky=W)
 
-    pointsCount_inner = Label(pointsCount, text='innerCount:')
+    pointsCount_inner = Label(pointsCount, text='内部点数:')
     pointsCount_inner.grid(column=0, row=1, pady=0)
 
     pointsCount_inner_Num = Label(pointsCount, text='0')
@@ -412,42 +408,43 @@ class rootWindows():
     sets_select = Frame(sets, height=30, width=180)
     sets_select.grid(column=0, row=4, columnspan=2)
 
-    sets_select_Outer = Button(sets_select, text='Sel_Outer', state=DISABLED, command=lambda: rootWindows.selmode_o(root))
+    sets_select_Outer = Button(sets_select, text='[外部选取]', state=DISABLED, command=lambda: rootWindows.selmode_o(root))
     sets_select_Outer.grid(column=0, row=0, padx=3)
 
-    sets_select_Inner = Button(sets_select, text='Sel_Inner', state=DISABLED, command=lambda: rootWindows.selmode_i(root))
+    sets_select_Inner = Button(sets_select, text='[内部选取]', state=DISABLED, command=lambda: rootWindows.selmode_i(root))
     sets_select_Inner.grid(column=1, row=0, padx=3)
 
     sets_down1 = Frame(sets, height=150, width=180, highlightbackground="grey", highlightthickness=1)
     sets_down1.grid(column=0, row=5, pady=5, columnspan=2)
     sets_down1.grid_propagate(False)
 
-    sets_down1_figureLabel = Label(sets_down1,text='Result:',font=('arial',15,'bold'))
-    sets_down1_figureLabel.grid(column=0,row=0,pady=1,columnspan=2,sticky=W)
+    sets_down1_figureLabel = Label(sets_down1,text='计算结果:',font=('default',15,'bold'))
+    sets_down1_figureLabel.grid(column=0,row=1,pady=1,columnspan=2,sticky=W)
 
-    sets_down1_figurel = Label(sets_down1,text='AVE:',font=('arial',10,'bold'))
-    sets_down1_figurel.grid(column=0,row=1,pady=1,sticky=E)
+
+    sets_down1_figurel = Label(sets_down1,text='平均厚度:',font=('default',10,'bold'))
+    sets_down1_figurel.grid(column=0,row=2,pady=1,sticky=E)
 
     sets_down1_figurel_num = Label(sets_down1,text='0 mm')
-    sets_down1_figurel_num.grid(column=1,row=1,pady=1,sticky=W)
+    sets_down1_figurel_num.grid(column=1,row=2,pady=1,sticky=W)
 
-    sets_down1_figure2 = Label(sets_down1,text='Selected:',font=('arial',10,'bold'))
-    sets_down1_figure2.grid(column=0,row=2,pady=1,sticky=E)
+    sets_down1_figure2 = Label(sets_down1,text='选取长度:',font=('default',10,'bold'))
+    sets_down1_figure2.grid(column=0,row=3,pady=1,sticky=E)
 
     sets_down1_figure2_num = Label(sets_down1,text='0 mm')
-    sets_down1_figure2_num.grid(column=1,row=2,pady=1,sticky=W)
+    sets_down1_figure2_num.grid(column=1,row=3,pady=1,sticky=W)
 
-    sets_down1_ratio = Label(sets_down1,text='Ratio:',font=('arial',10,'bold'))
-    sets_down1_ratio.grid(column=0,row=3,pady=1,sticky=E)
+    sets_down1_ratio = Label(sets_down1,text='比例尺:',font=('default',10,'bold'))
+    sets_down1_ratio.grid(column=0,row=4,pady=1,sticky=E)
 
-    sets_down1_ratio_num = Label(sets_down1,text='noRuler')
-    sets_down1_ratio_num.grid(column=1,row=3,pady=1,sticky=W)
+    sets_down1_ratio_num = Label(sets_down1,text='未定义')
+    sets_down1_ratio_num.grid(column=1,row=4,pady=1,sticky=W)
 
     sets_downLog = Frame(sets, height=140, width=180, highlightbackground="grey", highlightthickness=1)
     sets_downLog.grid_propagate(False)
     sets_downLog.grid(column=0, row=6, pady=3, columnspan=2, sticky=W)
 
-    sets_downLog_logTitle = Label(sets_downLog, text='LOGS:')
+    sets_downLog_logTitle = Label(sets_downLog, text='日志信息:')
     sets_downLog_logTitle.grid(column=0, row=0, sticky=W)
 
     sets_downLog_logs = Label(sets_downLog, text='', wraplength=170, fg="red")
@@ -456,8 +453,7 @@ class rootWindows():
     sets_downLog_logs1 = Label(sets_downLog, text='', wraplength=170, fg="#AAAA00")
     sets_downLog_logs1.grid(column=0, row=1, sticky=W)
 
-    sets_downLog_logs2 = Label(sets_downLog, text='>There will be the logs of the program. '
-                                                  'Point out what is happening', wraplength=180, fg="blue")
+    sets_downLog_logs2 = Label(sets_downLog, text='>T这是程序日志，将显示现在正在发生什么', wraplength=180, fg="blue")
     sets_downLog_logs2.grid(column=0, row=1, sticky=W)
 
 
@@ -474,7 +470,7 @@ def is_mouse_inside_canvas(event):
 def motion(event): # 鼠标移动
     mouse_pos = (event.x, event.y)
     if is_mouse_inside_canvas(event):
-        root.position.config(text="X: {} | Y: {}\tRuler: 1:{:.2f}μm".format(mouse_pos[0], mouse_pos[1],rulerRatio))
+        root.position.config(text="X: {} | Y: {}\t比例尺: 1:{:.2f}μm".format(mouse_pos[0], mouse_pos[1],rulerRatio))
         if mode['Delete'] and imgPath1 != '':
             if approachPoints(mouse_pos, 3):
                 for pos in outerPoints:
