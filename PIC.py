@@ -122,6 +122,8 @@ class rootWindows():
         detail.resizable(0, 0)
         location = Label(detail, text="PIC Alpha 0.5.5")
         location.grid(column=0, row=0)
+        root.sets_downLog_logs2.config(text='>(努力给你发送了个弹窗)诺！你要的弹窗，拿去吧')
+        root.sets_downLog_logs.config(text='>')
 
         numIdx = 14  # gif的帧数
         numIdx1 = 23  # gif的帧数
@@ -153,6 +155,8 @@ class rootWindows():
         detail.mainloop()
 
     def saveScreen(self):
+        root.sets_downLog_logs2.config(text='>截图中')
+        root.sets_downLog_logs.config(text='>')
         # 获取主窗口的位置和大小
         x = root.root.winfo_rootx()
         y = root.root.winfo_rooty()-35
@@ -166,6 +170,9 @@ class rootWindows():
         screenshot.save(filename)
         messagebox.showinfo('已保存为','screenshot has been saved as:\n'+filename)
         os.startfile(filename)
+
+        root.sets_downLog_logs2.config(text='>123茄子！')
+        root.sets_downLog_logs.config(text='>')
 
     def fileSelect(self):
         global imgPath1
@@ -183,7 +190,12 @@ class rootWindows():
             img = img.resize((500, int(img.height / img.width * 500)))
             photo = ImageTk.PhotoImage(img)  # 用PIL模块的PhotoImage打开
             root.canves.create_image(0, 0, anchor='nw', image=photo)
+            root.sets_downLog_logs2.config(text='>图片选取成功喵！')
+            root.sets_downLog_logs.config(text='>')
             root.root.mainloop()
+        else:
+            root.sets_downLog_logs2.config(text='')
+            root.sets_downLog_logs.config(text='>图片选取失败了！\n不要点取消啊喂！')
 
     def echo(self):
         global imgPath1
@@ -206,6 +218,8 @@ class rootWindows():
             selmode[j] = False
         root.updateSelmod()
         root.updaterulermode()
+        root.sets_downLog_logs2.config(text='>(切换模式)鼠标模式')
+        root.sets_downLog_logs.config(text='>')
     def select(self):
         root.tool_mouse.config(state=ACTIVE)
         root.tool_select.config(state=DISABLED)
@@ -213,6 +227,8 @@ class rootWindows():
         root.tool_ruler.config(state=ACTIVE)
         root.mode.config(text='模式：画笔')
         root.canves.config(cursor='crosshair')
+        root.sets_downLog_logs2.config(text='>(切换模式)画笔模式')
+        root.sets_downLog_logs.config(text='>')
         for i in mode:
             mode[i] = False
         mode['Select'] = True
@@ -235,6 +251,8 @@ class rootWindows():
             selmode[j] = False
         root.updateSelmod()
         root.updaterulermode()
+        root.sets_downLog_logs2.config(text='>(切换模式)删除模式')
+        root.sets_downLog_logs.config(text='>')
     def ruler(self):
         root.tool_mouse.config(state=ACTIVE)
         root.tool_select.config(state=ACTIVE)
@@ -249,10 +267,14 @@ class rootWindows():
             selmode[j] = False
         root.updateSelmod()
         root.updaterulermode()
+        root.sets_downLog_logs2.config(text='>(切换模式)比例尺模式')
+        root.sets_downLog_logs.config(text='>')
     def help(self):
         # helps = Toplevel()
         # helps.iconbitmap(f"{folder}/resource/icon.ico")
         # Label(helps,text='使用帮助！').pack()
+        root.sets_downLog_logs2.config(text='>^-^(探头)要我帮忙吗？')
+        root.sets_downLog_logs.config(text='>')
         os.startfile(f'{folder}/resource/Help.html')
     def selmode_o(self):
         selmode['outer'] = False
@@ -271,10 +293,10 @@ class rootWindows():
                 rulerRatio = 0
             else:
                 rulerRatio = eval(root.tool_rulerConfirm_num.get())/(((rulerPos[0][0]-rulerPos[1][0])**2+(rulerPos[0][1]-rulerPos[1][1])**2)**0.5)
-            root.position.config(text="X: {} | Y: {}\tRuler: 1:{:.2f}μm".format(mouse_pos[0], mouse_pos[1], rulerRatio))
+            root.position.config(text="X:  {} | Y:  {}\t比例尺: 1:{:.2f}μm".format(mouse_pos[0], mouse_pos[1], rulerRatio))
             root.sets_down1_ratio_num.config(text="1:{:.2f}μm".format(rulerRatio))
-            # print(((rulerPos[0][0]-rulerPos[1][0])**2+(rulerPos[0][1]-rulerPos[1][1])**2)**0.5)
-            # print(rulerRatio)
+            root.sets_downLog_logs2.config(text='>成功定义了比例尺:\n'+"1:{:.2f}μm".format(rulerRatio))
+            root.sets_downLog_logs.config(text='>')
     def __init__(self):
         root =self.root
         root.geometry("700x450")
@@ -320,7 +342,7 @@ class rootWindows():
     lowerDiv1 = Frame(bg="white", height=1, width=500)
     lowerDiv1.grid(column=0, row=7, columnspan=2)
 
-    position = Label(root, text="X: NULL | Y: NULL\t比例尺：未定义比例尺")
+    position = Label(root, text="X: NULL | Y: NULL\t比例尺: 1:0.00μm")
     position.grid(column=0, row=8, sticky=W)
 
     mode = Label(root, text="模式：鼠标")
@@ -453,7 +475,7 @@ class rootWindows():
     sets_downLog_logs1 = Label(sets_downLog, text='', wraplength=170, fg="#AAAA00")
     sets_downLog_logs1.grid(column=0, row=1, sticky=W)
 
-    sets_downLog_logs2 = Label(sets_downLog, text='>T这是程序日志，将显示现在正在发生什么', wraplength=180, fg="blue")
+    sets_downLog_logs2 = Label(sets_downLog, text='>这是程序日志，将显示现在正在发生什么', wraplength=175, fg="blue")
     sets_downLog_logs2.grid(column=0, row=1, sticky=W)
 
 
