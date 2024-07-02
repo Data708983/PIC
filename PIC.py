@@ -5,7 +5,6 @@ from tkinter import filedialog
 from tkinter import messagebox
 from tkinter.tix import *
 from PIL import ImageGrab
-import math
 import time
 import os
 import pathlib
