@@ -6,6 +6,7 @@ from tkinter import messagebox
 from tkinter.tix import *
 from PIL import ImageGrab
 import time
+import math
 import os
 import pathlib
 
@@ -84,7 +85,41 @@ class rootWindows():
                     temp = innerPoints[i]
 
     def updateResult(self):
-        pass
+        area1, area2,  = 0, 0,
+        perimeter1, perimeter2 = 0, 0
+
+        def polygon_area(points):
+            n = len(points)
+            area = 0.0
+            for i in range(n):
+                j = (i + 1) % n
+                area += points[i][0] * points[j][1]
+                area -= points[j][0] * points[i][1]
+            area = abs(area) / 2.0
+            return area
+
+        def polygon_perimeter(points):
+            n = len(points)
+            perimeter = 0.0
+            for i in range(n):
+                j = (i + 1) % n
+                dist = ((points[j][0] - points[i][0]) ** 2 + (points[j][1] - points[i][1]) ** 2) ** 0.5
+                perimeter += dist
+            return perimeter
+
+        def width():
+            S = area1 - area2
+            R = perimeter1 / (2 * math.pi)
+            r = perimeter2 / (2 * math.pi)
+            d = S / ((R + r) * math.pi)
+            return d
+        if len(outerPoints) >= 5 and len(innerPoints) >= 4 and rulerRatio != 0:
+            area1 = polygon_area(outerPoints)
+            perimeter1 = polygon_perimeter(outerPoints)
+            area2 = polygon_area(innerPoints)
+            perimeter2 = polygon_perimeter(innerPoints)
+            d = width()*rulerRatio**2
+            self.sets_down1_figurel_num.config(text='{:.2f}μm'.format(d))
 
     def updatePointsCount(self):
         sum_o,sum_i =0,0
@@ -304,6 +339,7 @@ class rootWindows():
             root.sets_down1_ratio_num.config(text="1:{:.2f}μm".format(rulerRatio))
             root.sets_downLog_logs2.config(text='>成功定义了比例尺:\n'+"1:{:.2f}μm".format(rulerRatio))
             root.sets_downLog_logs.config(text='>')
+        self.updateResult()
     def __init__(self):
         root =self.root
         root.geometry("700x450")
@@ -454,13 +490,13 @@ class rootWindows():
     sets_down1_figurel = Label(sets_down1,text='平均厚度:',font=('default',10,'bold'))
     sets_down1_figurel.grid(column=0,row=2,pady=1,sticky=E)
 
-    sets_down1_figurel_num = Label(sets_down1,text='0 mm')
+    sets_down1_figurel_num = Label(sets_down1,text='0 μm')
     sets_down1_figurel_num.grid(column=1,row=2,pady=1,sticky=W)
 
     sets_down1_figure2 = Label(sets_down1,text='选取长度:',font=('default',10,'bold'))
     sets_down1_figure2.grid(column=0,row=3,pady=1,sticky=E)
 
-    sets_down1_figure2_num = Label(sets_down1,text='0 mm')
+    sets_down1_figure2_num = Label(sets_down1,text='0 μm')
     sets_down1_figure2_num.grid(column=1,row=3,pady=1,sticky=W)
 
     sets_down1_ratio = Label(sets_down1,text='比例尺:',font=('default',10,'bold'))
@@ -651,7 +687,7 @@ def motion(event): # 鼠标移动
             root.canves.create_line(inFirstPos[0], inFirstPos[1], inLastPos[0], inLastPos[1], fill='blue',
                                     width=2, tag='lastline')
 def click(event):  # 鼠标点击
-    print("O:",outerPoints,'\n','I:',innerPoints)
+    # print("O:",outerPoints,'\n','I:',innerPoints)
     drawOuterPoints((event.x,event.y), event)
     drawinnerPoints((event.x,event.y), event)
     mouse_pos = (event.x, event.y)
@@ -673,8 +709,10 @@ def click(event):  # 鼠标点击
             root.canves.delete("appoachI")
             root.updatePointsCount()
             root.updatePointConnection()
+            root.updateResult()
     if is_mouse_inside_canvas(event) and mode['Ruler']:
         drawRulerPoints((event.x,event.y))
+        root.updateResult()
 
 def drawRulerPoints(pos):
     x,y = pos
