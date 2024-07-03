@@ -83,6 +83,9 @@ class rootWindows():
                 else:
                     temp = innerPoints[i]
 
+    def updateResult(self):
+        pass
+
     def updatePointsCount(self):
         sum_o,sum_i =0,0
         for i in outerPoints:
@@ -219,6 +222,7 @@ class rootWindows():
         root.updaterulermode()
         root.sets_downLog_logs2.config(text='>(切换模式)鼠标模式')
         root.sets_downLog_logs.config(text='>')
+
     def select(self):
         root.tool_mouse.config(state=ACTIVE)
         root.tool_select.config(state=DISABLED)
@@ -236,6 +240,7 @@ class rootWindows():
         selmode['inner'] = True
         root.updateSelmod()
         root.updaterulermode()
+
     def delete(self):
         root.tool_mouse.config(state=ACTIVE)
         root.tool_select.config(state=ACTIVE)
@@ -252,6 +257,7 @@ class rootWindows():
         root.updaterulermode()
         root.sets_downLog_logs2.config(text='>(切换模式)删除模式')
         root.sets_downLog_logs.config(text='>')
+
     def ruler(self):
         root.tool_mouse.config(state=ACTIVE)
         root.tool_select.config(state=ACTIVE)
@@ -268,6 +274,7 @@ class rootWindows():
         root.updaterulermode()
         root.sets_downLog_logs2.config(text='>(切换模式)比例尺模式')
         root.sets_downLog_logs.config(text='>')
+
     def help(self):
         # helps = Toplevel()
         # helps.iconbitmap(f"{folder}/resource/icon.ico")
@@ -275,6 +282,7 @@ class rootWindows():
         root.sets_downLog_logs2.config(text='>^-^(探头)要我帮忙吗？')
         root.sets_downLog_logs.config(text='>')
         os.startfile(f'{folder}/resource/Help.html')
+
     def selmode_o(self):
         selmode['outer'] = False
         selmode['inner'] = True
@@ -643,7 +651,7 @@ def motion(event): # 鼠标移动
             root.canves.create_line(inFirstPos[0], inFirstPos[1], inLastPos[0], inLastPos[1], fill='blue',
                                     width=2, tag='lastline')
 def click(event):  # 鼠标点击
-    # print("O:",outerPoints,'\n','I:',innerPoints)
+    print("O:",outerPoints,'\n','I:',innerPoints)
     drawOuterPoints((event.x,event.y), event)
     drawinnerPoints((event.x,event.y), event)
     mouse_pos = (event.x, event.y)
